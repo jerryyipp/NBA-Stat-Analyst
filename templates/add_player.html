@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Player</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/stats">Statistics</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
+    <!-- Main Content -->
+    <main>
+      <h1>Add New Player</h1>
+
+      <!-- Form to Add a New Player -->
+      <form action="{{ url_for('add_player') }}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="team_name">Team Name:</label>
+        <input type="text" id="team_name" name="team_name" required />
+
+        <label for="position">Position:</label>
+        <input type="text" id="position" name="position" />
+
+        <label for="height">Height:</label>
+        <input type="text" id="height" name="height" />
+
+        <button type="submit">Add Player</button>
+      </form>
+
+      <a href="/players">View Player List</a>
+      <!-- Link to view players -->
+    </main>
+  </body>
+</html>
