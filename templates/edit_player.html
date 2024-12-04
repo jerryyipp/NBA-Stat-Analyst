@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Player</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h1>Edit Player</h1>
+      <form
+        action="{{ url_for('edit_player', player_id=player.player_id) }}"
+        method="post"
+      >
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{ player.name }}"
+          required
+        />
+
+        <label for="team_name">Team Name:</label>
+        <input
+          type="text"
+          id="team_name"
+          name="team_name"
+          value="{{ player.team_name }}"
+          required
+        />
+
+        <label for="position">Position:</label>
+        <input
+          type="text"
+          id="position"
+          name="position"
+          value="{{ player.position }}"
+        />
+
+        <label for="height">Height:</label>
+        <input
+          type="text"
+          id="height"
+          name="height"
+          value="{{ player.height }}"
+        />
+
+        <button type="submit">Update Player</button>
+      </form>
+    </main>
+  </body>
+</html>
 
