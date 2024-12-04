@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title | default("NBA Analysis") }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/stats">Statistics</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
+    <!-- Main Content -->
+    <main>
+      <h1>{{ heading | default("Welcome!") }}</h1>
+      <div id="content">{{ content | safe }}</div>
+
+      <!-- Displaying Players -->
+      <h2>Players List</h2>
+      <ul>
+        {% for player in players %}
+        <li>
+          {{ player.name }} - {{ player.position }} ({{ player.team_name }})
+        </li>
+        {% else %}
+        <li>No players found.</li>
+        {% endfor %}
+      </ul>
+
+      <!-- Link to Add Player -->
+      <a href="/add">Add a New Player</a>
+    </main>
+  </body>
+</html>
