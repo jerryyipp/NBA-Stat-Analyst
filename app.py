@@ -121,37 +121,44 @@ def delete_player(player_id):
 # Route for statistics
 @app.route('/statistics', methods=['GET'])
 def statistics():
-    # Get filter parameters from the request
     team_filter = request.args.get('team', '')
     position_filter = request.args.get('position', '')
     height_filter = request.args.get('height', '')
 
-    # Build the query for filtering players
-    players_query = Player.query
+    # Query distinct teams and positions
+    teams = Team.query.order_by(Team.team_name).all()
+    positions = db.session.query(Player.position).distinct().order_by(Player.position).all()
+    positions = [pos[0] for pos in positions if pos[0]]  # Extract the string values and filter None
 
+    # Build the base query
+    query = Player.query
     if team_filter:
-        players_query = players_query.filter(Player.team_name == team_filter)
+        query = query.filter(Player.team_name == team_filter)
     if position_filter:
-        players_query = players_query.filter(Player.position == position_filter)
+        query = query.filter(Player.position == position_filter)
     if height_filter:
-        players_query = players_query.filter(Player.height == height_filter)
+        query = query.filter(Player.height == height_filter)
 
-    players = players_query.all()
+    players = query.all()
 
     # Calculate statistics
-    average_height = None
-    if players:
-        total_height = sum([int(player.height.split("'")[0]) * 12 + int(player.height.split("'")[1]) for player in players if player.height])
-        average_height = total_height / len(players)
-
     num_players = len(players)
-    num_teams = len(set(player.team_name for player in players))
+    num_teams = Team.query.count()
+    average_height = db.session.query(db.func.avg(Player.height.cast(db.Float))).scalar()
 
-    # Get distinct teams for the filter dropdown
-    teams = db.session.query(Team.team_name).all()
+    return render_template(
+        'statistics.html',
+        teams=teams,
+        positions=positions,
+        players=players,
+        num_players=num_players,
+        num_teams=num_teams,
+        average_height=average_height,
+        team_filter=team_filter,
+        position_filter=position_filter,
+        height_filter=height_filter
+    )
 
-    return render_template('statistics.html', players=players, average_height=average_height, num_players=num_players, num_teams=num_teams,
-                           teams=teams, team_filter=team_filter, position_filter=position_filter, height_filter=height_filter)
 
 ######################################################################
 #                            END STATISTICS                          #

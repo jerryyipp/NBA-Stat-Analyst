@@ -11,17 +11,16 @@
   </head>
   <body>
     <!-- Navigation Bar -->
-    <header>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/statistics">Statistics</a></li>
-          <li><a href="/players">Players</a></li>
-          <li><a href="/teams">Teams</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/statistics">Statistics</a></li>
+      <li><a href="/players">Players</a></li>
+      <li><a href="/teams">Teams</a></li>
+    </ul>
+  </nav>
+</header>
 
     <!-- Main Content -->
     <main>
@@ -41,14 +40,15 @@
         <select name="position" id="position">
           <option value="">All</option>
           {% for position in positions %}
-            <option value="{{ position.position }}" {% if position.position == position_filter %}selected{% endif %}>{{ position.position }}</option>
+            <option value="{{ position }}" {% if position == position_filter %}selected{% endif %}>{{ position }}</option>
           {% endfor %}
-        </select>
+        </select>        
 
         <label for="height">Height:</label>
         <input type="text" id="height" name="height" value="{{ height_filter }}" placeholder="Height" />
 
         <button type="submit">Filter</button>
+        <a href="{{ url_for('statistics') }}"><button type="button">Clear Filters</button></a>
       </form>
 
       <!-- Display Statistics -->
