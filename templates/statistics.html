@@ -11,16 +11,16 @@
   </head>
   <body>
     <!-- Navigation Bar -->
-<header>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/statistics">Statistics</a></li>
-      <li><a href="/players">Players</a></li>
-      <li><a href="/teams">Teams</a></li>
-    </ul>
-  </nav>
-</header>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/statistics">Statistics</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/teams">Teams</a></li>
+        </ul>
+      </nav>
+    </header>
 
     <!-- Main Content -->
     <main>
@@ -45,23 +45,14 @@
         </select>        
 
         <label for="height">Height:</label>
-        <input type="text" id="height" name="height" value="{{ height_filter }}" placeholder="Height" />
+        <input type="text" id="height" name="height" value="{{ height_filter }}" placeholder="Height (e.g., 6'3)" />
 
         <button type="submit">Filter</button>
         <a href="{{ url_for('statistics') }}"><button type="button">Clear Filters</button></a>
       </form>
 
-      <!-- Display Statistics -->
-      <div>
-        <p>Total Number of Players: {{ num_players }}</p>
-        <p>Total Number of Teams: {{ num_teams }}</p>
-        {% if average_height %}
-          <p>Average Height: {{ average_height | round(2) }} inches</p>
-        {% else %}
-          <p>No height data available for players.</p>
-        {% endif %}
-      </div>
-
+      <!-- Display Player List -->
+      <h2>Player List</h2>
       <table>
         <thead>
           <tr>
@@ -89,6 +80,57 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <!-- Display Statistics -->
+      <div>
+        <p>Total Number of Players: {{ num_players }}</p>
+        <p>Total Number of Teams: {{ num_teams }}</p>
+        {% if average_height %}
+          <p>Average Height: {{ average_height | round(2) }} inches</p>
+        {% else %}
+          <p>No height data available for players.</p>
+        {% endif %}
+      </div>
+
+      <!-- Display Average Height by Team -->
+      <h2>Average Height by Team (League)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Team Name</th>
+            <th>Average Height (inches)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for team, avg_height in average_height_by_team %}
+            <tr>
+              <td>{{ team }}</td>
+              <td>{{ "%.2f" | format(avg_height) }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Display Position Breakdown -->
+      <h2>Position Breakdown (League)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Number of Players</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for position, num_players in position_breakdown %}
+            <tr>
+              <td>{{ position }}</td>
+              <td>{{ num_players }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
     </main>
+
   </body>
 </html>

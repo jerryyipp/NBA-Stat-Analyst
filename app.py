@@ -15,13 +15,24 @@ class Player(db.Model):
     name = db.Column(db.String(100), nullable=False)
     team_name = db.Column(db.String, db.ForeignKey('team.team_name'), nullable=False)
     position = db.Column(db.String(50))
-    height = db.Column(db.String(10))
+    height = db.Column(db.Float)  # Store height as float (in inches)
 
 # Define the Team model
 class Team(db.Model):
     team_name = db.Column(db.String(50), primary_key=True)
     city = db.Column(db.String(20), nullable=False)
     conference = db.Column(db.String(20), nullable=False)
+
+# Helper function to convert height in 'feet'inches' format to inches
+def convert_height_to_inches(height):
+    if height:
+        feet_inches = height.split("'")
+        if len(feet_inches) == 2:
+            feet = int(feet_inches[0])
+            inches = int(feet_inches[1].replace('"', ''))
+            total_inches = feet * 12 + inches
+            return total_inches
+    return None
 
 # Home route
 @app.route('/')
@@ -49,7 +60,7 @@ def players():
     if position_filter:
         players_query = players_query.filter(Player.position == position_filter)
     if height_filter:
-        players_query = players_query.filter(Player.height == height_filter)
+        players_query = players_query.filter(Player.height == float(height_filter))
 
     players = players_query.all()
 
@@ -72,18 +83,20 @@ def add_player():
         position = request.form['position']
         height = request.form['height']
 
+        # Convert height to inches if it's in a string format like '5'11"'
+        height_in_inches = convert_height_to_inches(height)
+
         # Check if the team exists, if not assign "Free Agent"
         if not Team.query.filter_by(team_name=team_name).first():
             team_name = "Free Agent"
 
-        new_player = Player(name=name, team_name=team_name, position=position, height=height)
+        new_player = Player(name=name, team_name=team_name, position=position, height=height_in_inches)
         db.session.add(new_player)
         db.session.commit()
         flash('Player added successfully!')
         return redirect(url_for('players'))
 
     return render_template('add_player.html', teams=teams)
-
 
 # Route to edit a player
 @app.route('/edit_player/<int:player_id>', methods=['GET', 'POST'])
@@ -94,7 +107,11 @@ def edit_player(player_id):
         player.name = request.form['name']
         player.team_name = request.form['team_name']
         player.position = request.form['position']
-        player.height = request.form['height']
+        height = request.form['height']
+
+        # Convert height to inches if it's in a string format like '5'11"'
+        player.height = convert_height_to_inches(height)
+        
         db.session.commit()
         flash('Player updated successfully!')
         return redirect(url_for('players'))
@@ -125,26 +142,38 @@ def statistics():
     position_filter = request.args.get('position', '')
     height_filter = request.args.get('height', '')
 
-    # Query distinct teams and positions
+    # Query distinct teams and positions for filter options
     teams = Team.query.order_by(Team.team_name).all()
     positions = db.session.query(Player.position).distinct().order_by(Player.position).all()
-    positions = [pos[0] for pos in positions if pos[0]]  # Extract the string values and filter None
+    positions = [pos[0] for pos in positions if pos[0]]  # Extract position values
 
-    # Build the base query
+    # Build the base query for filtering players
     query = Player.query
     if team_filter:
         query = query.filter(Player.team_name == team_filter)
     if position_filter:
         query = query.filter(Player.position == position_filter)
     if height_filter:
-        query = query.filter(Player.height == height_filter)
+        query = query.filter(Player.height == float(height_filter))
 
     players = query.all()
 
-    # Calculate statistics
+    # Calculate additional statistics
     num_players = len(players)
     num_teams = Team.query.count()
-    average_height = db.session.query(db.func.avg(Player.height.cast(db.Float))).scalar()
+    average_height = db.session.query(db.func.avg(Player.height)).scalar()
+
+    # Average Height by Team
+    average_height_by_team = db.session.query(
+        Player.team_name,
+        db.func.avg(Player.height).label('avg_height')
+    ).group_by(Player.team_name).all()
+
+    # Position Breakdown
+    position_breakdown = db.session.query(
+        Player.position,
+        db.func.count(Player.player_id).label('num_players')
+    ).group_by(Player.position).all()
 
     return render_template(
         'statistics.html',
@@ -154,11 +183,12 @@ def statistics():
         num_players=num_players,
         num_teams=num_teams,
         average_height=average_height,
+        average_height_by_team=average_height_by_team,
+        position_breakdown=position_breakdown,
         team_filter=team_filter,
         position_filter=position_filter,
         height_filter=height_filter
     )
-
 
 ######################################################################
 #                            END STATISTICS                          #
