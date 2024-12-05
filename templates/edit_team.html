@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Team</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/statistics">Statistics</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/teams">Teams</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h1>Edit Team</h1>
+      <form action="{{ url_for('edit_team', team_name=team.team_name) }}" method="post">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" value="{{ team.city }}" required />
+
+        <label for="conference">Conference:</label>
+        <input type="text" id="conference" name="conference" value="{{ team.conference }}" required />
+
+        <button type="submit">Update Team</button>
+      </form>
+    </main>
+  </body>
+</html>

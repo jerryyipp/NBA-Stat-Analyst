@@ -33,7 +33,13 @@
         <input type="text" id="name" name="name" required />
 
         <label for="team_name">Team Name:</label>
-        <input type="text" id="team_name" name="team_name" required />
+        <select id="team_name" name="team_name" required>
+          <option value="">Select a Team (or type Free Agent)</option>
+          {% for team in teams %}
+            <option value="{{ team.team_name }}">{{ team.team_name }}</option>
+          {% endfor %}
+          <option value="Free Agent">Free Agent</option>
+        </select>
 
         <label for="position">Position:</label>
         <input type="text" id="position" name="position" />
@@ -45,7 +51,6 @@
       </form>
 
       <a href="/players">View Player List</a>
-      <!-- Link to view players -->
     </main>
   </body>
 </html>

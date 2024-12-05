@@ -20,14 +20,18 @@ class Player(db.Model):
 # Define the Team model
 class Team(db.Model):
     team_name = db.Column(db.String(50), primary_key=True)
-    city = db.Column(db.String(20))
-    conference = db.Column(db.String(20))
+    city = db.Column(db.String(20), nullable=False)
+    conference = db.Column(db.String(20), nullable=False)
 
 # Home route
 @app.route('/')
 def home():
     players = Player.query.all()  # Retrieve all players
     return render_template('index.html', players=players)
+
+######################################################################
+#                               PLAYERS                              #
+######################################################################
 
 # Players route with filtering
 @app.route('/players', methods=['GET', 'POST'])
@@ -59,18 +63,27 @@ def players():
 # Route to add a player
 @app.route('/add', methods=['GET', 'POST'])
 def add_player():
+    # Retrieve all teams to populate the dropdown
+    teams = Team.query.all()
+
     if request.method == 'POST':
         name = request.form['name']
         team_name = request.form['team_name']
         position = request.form['position']
         height = request.form['height']
 
+        # Check if the team exists, if not assign "Free Agent"
+        if not Team.query.filter_by(team_name=team_name).first():
+            team_name = "Free Agent"
+
         new_player = Player(name=name, team_name=team_name, position=position, height=height)
         db.session.add(new_player)
         db.session.commit()
         flash('Player added successfully!')
         return redirect(url_for('players'))
-    return render_template('add_player.html')
+
+    return render_template('add_player.html', teams=teams)
+
 
 # Route to edit a player
 @app.route('/edit_player/<int:player_id>', methods=['GET', 'POST'])
@@ -96,6 +109,14 @@ def delete_player(player_id):
     db.session.commit()
     flash('Player deleted successfully!')
     return redirect(url_for('players'))
+
+######################################################################
+#                              END PLAYERS                           #
+######################################################################
+
+######################################################################
+#                            STATISTICS                              #
+######################################################################
 
 # Route for statistics
 @app.route('/statistics', methods=['GET'])
@@ -131,6 +152,58 @@ def statistics():
 
     return render_template('statistics.html', players=players, average_height=average_height, num_players=num_players, num_teams=num_teams,
                            teams=teams, team_filter=team_filter, position_filter=position_filter, height_filter=height_filter)
+
+######################################################################
+#                            END STATISTICS                          #
+######################################################################
+
+######################################################################
+#                                 TEAMS                              #
+######################################################################
+
+@app.route('/teams', methods=['GET', 'POST'])
+def teams():
+    if request.method == 'POST':
+        team_name = request.form['team_name']
+        city = request.form['city']
+        conference = request.form['conference']
+
+        new_team = Team(team_name=team_name, city=city, conference=conference)
+        db.session.add(new_team)
+        db.session.commit()
+        flash('Team added successfully!')
+        return redirect(url_for('teams'))
+
+    teams = Team.query.all()
+    return render_template('teams.html', teams=teams)
+
+
+@app.route('/edit_team/<string:team_name>', methods=['GET', 'POST'])
+def edit_team(team_name):
+    team = Team.query.get_or_404(team_name)
+
+    if request.method == 'POST':
+        team.city = request.form['city']
+        team.conference = request.form['conference']
+        db.session.commit()
+        flash('Team updated successfully!')
+        return redirect(url_for('teams'))
+
+    return render_template('edit_team.html', team=team)
+
+
+@app.route('/delete_team/<string:team_name>', methods=['POST'])
+def delete_team(team_name):
+    team = Team.query.get_or_404(team_name)
+    db.session.delete(team)
+    db.session.commit()
+    flash('Team deleted successfully!')
+    return redirect(url_for('teams'))
+
+
+######################################################################
+#                            END TEAMS                               #
+######################################################################
 
 if __name__ == '__main__':
     with app.app_context():
