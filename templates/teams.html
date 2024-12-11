@@ -71,9 +71,16 @@
               <td>{{ team.city }}</td>
               <td>{{ team.conference }}</td>
               <td>
-                <a href="{{ url_for('edit_team', team_name=team.team_name) }}"
-                  >Edit</a
+                <!-- Edit Button -->
+                <form
+                  action="{{ url_for('edit_team', team_name=team.team_name) }}"
+                  method="get"
+                  style="display: inline"
                 >
+                  <button type="submit">Edit</button>
+                </form>
+
+                <!-- Delete Button -->
                 <form
                   action="{{ url_for('delete_team', team_name=team.team_name) }}"
                   method="post"

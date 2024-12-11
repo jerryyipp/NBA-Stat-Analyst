@@ -1,29 +1,158 @@
-/* Reset list styles */
+/* General Reset */
+body, h1, h2, p, table, form, ul, li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9; /* Light background for contrast */
+    color: #333;
+    margin: 20px;
+}
+
+/* Navigation Bar */
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex;            /* Makes the list horizontal */
-    justify-content: center;   /* Centers the nav items */
-    background-color: #333;    /* Navbar background color */
+    display: flex; /* Horizontal navigation */
+    justify-content: center;
+    background-color: #333; /* Navbar background */
 }
 
-/* Styling for each list item */
 nav ul li {
-    margin: 0 15px;            /* Space between items */
+    margin: 0 15px; /* Space between nav items */
 }
 
-/* Styling for links */
 nav ul li a {
-    color: white;              /* Link text color */
+    color: white; /* Text color */
     text-decoration: none;
     font-weight: bold;
-    padding: 10px 15px;        /* Padding around each link */
+    padding: 10px 15px;
     display: inline-block;
 }
 
-/* Hover effect */
 nav ul li a:hover {
-    background-color: #555;    /* Background color on hover */
-    border-radius: 4px;        /* Rounded corners on hover */
+    background-color: #555; /* Hover background */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Main Content */
+main {
+    margin: 20px auto;
+    max-width: 1200px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form select, form input, form button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+form a button:hover {
+    background-color: #999;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Button Styling */
+button, a {
+    text-decoration: none;
+    color: white;
+    background-color: #333;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover, a:hover {
+    background-color: #555;
+}
+
+/* Statistics Summary */
+.statistics-summary {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-summary div {
+    text-align: center;
+}
+
+.statistics-summary div p {
+    margin-bottom: 10px;
+    font-weight: bold;
 }

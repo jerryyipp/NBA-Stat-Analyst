@@ -22,22 +22,37 @@
       </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-      <h1>{{ heading | default("Welcome!") }}</h1>
-      <div id="content">{{ content | safe }}</div>
-
-      <!-- Displaying Players -->
-      <h2>Players List</h2>
-      <ul>
-        {% for player in players %}
-        <li>
-          {{ player.name }} - {{ player.position }} ({{ player.team_name }})
-        </li>
-        {% else %}
-        <li>No players found.</li>
-        {% endfor %}
-      </ul>
+      <!-- Display Player List -->
+      <h2>Player List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Team</th>
+            <th>Position</th>
+            <th>Height</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for player in players %}
+            <tr>
+              <td>{{ player.name }}</td>
+              <td>{{ player.team_name }}</td>
+              <td>{{ player.position }}</td>
+              <td>{{ player.height }}</td>
+              <td>
+                <form action="{{ url_for('edit_player', player_id=player.player_id) }}" method="GET" style="display:inline;">
+                  <button type="submit">Edit</button>
+                </form>
+                <form action="{{ url_for('delete_player', player_id=player.player_id) }}" method="POST" style="display:inline;">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
       <!-- Link to Add Player -->
       <a href="/add">Add a New Player</a>
