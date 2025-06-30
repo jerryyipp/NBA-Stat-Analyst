@@ -1,114 +1,118 @@
-/* General Reset */
-body, h1, h2, p, table, form, ul, li {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Montserrat&display=swap');
 
-/* Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f9; /* Light background for contrast */
-    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    background: #f0f4f8;
+    color: #222;
     margin: 20px;
 }
 
-/* Navigation Bar */
 nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex; /* Horizontal navigation */
+    background-color: #17408B; /* NBA Navy Blue */
+    display: flex;
     justify-content: center;
-    background-color: #333; /* Navbar background */
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
 }
 
 nav ul li {
-    margin: 0 15px; /* Space between nav items */
+    margin: 0 20px;
 }
 
 nav ul li a {
-    color: white; /* Text color */
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.1rem;
     text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
+    padding: 15px 20px;
     display: inline-block;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 nav ul li a:hover {
-    background-color: #555; /* Hover background */
-    border-radius: 4px; /* Rounded corners */
+    background-color: #E03A3E; /* NBA Red */
 }
 
-/* Main Content */
 main {
-    margin: 20px auto;
-    max-width: 1200px;
-    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(21, 64, 139, 0.25);
 }
 
 h1, h2 {
-    margin-bottom: 20px;
-    color: #222;
-}
-
-/* Form Styling */
-form {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
+    font-family: 'Oswald', sans-serif;
+    color: #17408B;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
 }
 
 form label {
-    font-weight: bold;
+    font-weight: 600;
+    color: #17408B;
+    display: block;
+    margin-bottom: 8px;
 }
 
-form select, form input, form button {
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+form input[type="text"],
+form select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 2px solid #B0B7BC;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
 }
 
-form button {
-    background-color: #333;
+form input[type="text"]:focus,
+form select:focus {
+    border-color: #E03A3E;
+    outline: none;
+}
+
+button {
+    background: linear-gradient(45deg, #17408B, #E03A3E);
     color: white;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
     border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    transition: background 0.4s ease;
 }
 
-form button:hover {
-    background-color: #555;
+button:hover {
+    background: linear-gradient(45deg, #E03A3E, #17408B);
 }
 
-form a button:hover {
-    background-color: #999;
-}
-
-/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #B0B7BC;
+    padding: 12px 15px;
     text-align: left;
 }
 
 table th {
-    background-color: #333;
+    background-color: #17408B;
     color: white;
-    font-weight: bold;
+    text-transform: uppercase;
 }
 
 table tr:nth-child(even) {
@@ -116,43 +120,47 @@ table tr:nth-child(even) {
 }
 
 table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Button Styling */
-button, a {
-    text-decoration: none;
+    background-color: #E03A3E;
     color: white;
-    background-color: #333;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    display: inline-block;
-    cursor: pointer;
-    text-align: center;
+    transition: all 0.3s ease;
 }
 
-button:hover, a:hover {
-    background-color: #555;
-}
-
-/* Statistics Summary */
 .statistics-summary {
     display: flex;
-    justify-content: space-around;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    background-color: #f0f4f8;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(224, 58, 62, 0.15);
+    margin-bottom: 30px;
 }
 
 .statistics-summary div {
     text-align: center;
+    flex: 1;
+    color: #17408B;
 }
 
-.statistics-summary div p {
-    margin-bottom: 10px;
-    font-weight: bold;
+.statistics-summary div p:first-child {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
 }
+
+.button-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #e03a3e; /* NBA red */
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-link:hover {
+    background-color: #b0282b; /* Darker red on hover */
+  }
+  
